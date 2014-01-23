@@ -4,11 +4,12 @@ Meteor.FilterCollections.publish(People, {
 });
 
 Meteor.startup(function () {
+	People.remove();
   //this code inputs data if there is none
   if (People.find().count() < 10000) {
     //adds arbitrary data.  change this for different filterable columns 
     for (var i = 0; i < 10000; i++) {
-      var number = Math.floor(Math.random() * 10000);
+      var number = Math.floor(Math.random() * 1000000);
       if (i % 2 == 0) {
         People.insert({
           name: 'Kris ' + i,
