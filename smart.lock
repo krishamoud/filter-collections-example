@@ -1,0 +1,27 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "filter-collections": {},
+      "iron-router": {},
+      "bootstrap-3": {}
+    },
+    "packages": {
+      "filter-collections": {
+        "git": "https://github.com/julianmontagna/filter-collections.git",
+        "tag": "v0.1.1",
+        "commit": "ed7adb76b893a7e24e751a1b92637c123f15bdd6"
+      },
+      "iron-router": {
+        "git": "https://github.com/EventedMind/iron-router.git",
+        "tag": "v0.6.2",
+        "commit": "ce56e58b45624dce992490f3a1c10f10d3948bae"
+      },
+      "bootstrap-3": {
+        "git": "https://github.com/mangasocial/meteor-bootstrap-3.git",
+        "tag": "v0.3.7",
+        "commit": "5dd0d142c870647b910be80bc777b96f0dd45e5e"
+      }
+    }
+  }
+}

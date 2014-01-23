@@ -1,0 +1,47 @@
+<template name="home">
+  <div class="container">
+    <div class="row">
+      <h1>Click on any of the table headers to change what you are filtering</h1>
+      <!-- current-filters -->
+      {{#each fc.currentFilters}}
+      <button href="#" class="fc-clear-filter">{{title}} : {{value}}</button>
+      {{/each}} {{#with fc.activeFilters}}
+      <button href="#" class="fc-clear-filters">Clear All</button>
+      {{/with}}
+      <!-- /current-filters -->
+      <table class="table">
+        <tr>
+          <th class="fc-sort" data-fc-sort="name">Name</th>
+          <th class="fc-sort" data-fc-sort="group">Group</th>
+          <th class="fc-sort" data-fc-sort="number">Number</th>
+          <th class="fc-sort" data-fc-sort="random_number">Random Number</th>
+        </tr>
+        {{#each fcResults}}
+        <tr>
+          <td>{{name}}</td>
+          <td>{{group}}</td>
+          <td>{{number}}</td>
+          <td>{{random_number}}</td>
+        </tr>
+        {{/each}}
+      </table>
+      <!-- numbered pager -->
+      <ul class="pagination">
+        <li><a href="#" class="fc-pager-first">&lt;&lt;</a>
+        </li>
+        <li><a href="#" class="fc-pager-previous">&lt;</a>
+        </li>
+        {{#each fcPager.pages}}
+        <li class="{{status}}"><a href="#" class="fc-pager-page" data-fc-pager-page="{{page}}">{{page}}</a>
+        </li>
+        {{/each}}
+        <li><a href="#" class="fc-pager-next">&gt;</a>
+        </li>
+        <li><a href="#" class="fc-pager-last">&gt;&gt;</a>
+        </li>
+      </ul>
+      <!-- /numbered pager -->
+    </div>
+  </div>
+</template>
+
