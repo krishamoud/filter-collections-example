@@ -41,6 +41,14 @@
         </li>
       </ul>
       <!-- /numbered pager -->
+      <!-- items per page -->
+			<p>people per page</p>
+      <select class="fc-pager-options form-control">
+        {{#each fcPager.options}}
+        <option value="{{value}}" {{status}}>{{value}}</option>
+        {{/each}}
+      </select>
+      <!-- /items per page -->
     </div>
   </div>
 </template>
