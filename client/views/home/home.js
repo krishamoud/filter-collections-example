@@ -1,34 +1,5 @@
-//This is the subscription to the filter-collection publication
-// PeopleFilter = new Meteor.FilterCollections(People, {
-//     template: 'home',
-//     //this just tells filter-collections to filter by number first
-//     sort: {
-//       order: ['desc', 'asc'],
-//       defaults: [
-//         ['number', 'desc']
-//       ]
-//     },
-//     filters: {
-//       type: {
-//         title: 'Type'
-//       },
-//       name: {
-//         title: 'Name',
-//         operator: {
-//           name: '$regex',
-//           options: 'i'
-//         },
-//         group: '$and',
-//         search: {
-//           enabled: true,
-//           active: true,
-//           mandatory: true
-//         }
-//       }
-//     }
-// });
-
-PeopleFilter = new Meteor.FilterCollections(People, {
+HomeFilter = new Meteor.FilterCollections(People, {
+  name: 'people-full',
   template: 'home',
   sort: {
     order: ['desc', 'asc'],
@@ -62,7 +33,7 @@ PeopleFilter = new Meteor.FilterCollections(People, {
       title: 'Name',
       operator: ['$regex', 'i'],
       condition: '$and',
-      searchable: 'optional'
+      searchable: 'required'
     },
     "corporate_group.gender": {
       title: 'Gender',

@@ -1,0 +1,110 @@
+<template name="peopleList">
+  <div class="row">
+    <div class="page-header clearfix">
+      <h1>Filter Collections Application Example<br/><small>Click on any of the table headers to change what you are sorting.</small></h1>
+    </div>
+
+    <nav class="navbar navbar-inverse" role="navigation">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <form class="navbar-form navbar-left" role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" value="{{fcFilterSearchable.criteria}}" data-fc-search-target="search-box">
+          </div>
+          <button type="submit" class="btn btn-success fc-search-trigger" data-fc-search-trigger="search-box">Submit</button>
+          {{#if fcFilterSearchable.criteria}}<button type="button" class="btn btn-danger fc-search-clear">Reset</button>{{/if}}
+        </form>
+
+        <!-- active filters -->
+        {{#if fcFilterActive}}
+          <div class="navbar-form pull-right">
+            {{#each fcFilterActive}}
+              <a href="#" class="btn btn-info fc-filter-clear">{{title}}: {{operator}} {{value}}</a>
+            {{/each}}
+          </div>
+        {{/if}}
+        <!-- /active filters -->
+
+      </div>
+    </nav>
+
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-condensed">
+        <tr>
+          <th class="fc-sort" data-fc-sort="corporate_group.title">
+            Title
+            {{#if fcSort.corporate_group.title.desc}}(desc){{/if}}
+            {{#if fcSort.corporate_group.title.asc}}(asc){{/if}}
+          </th>
+          <th class="fc-sort" data-fc-sort="name">
+            Name
+            {{#if fcSort.name.desc}}(desc){{/if}}
+            {{#if fcSort.name.asc}}(asc){{/if}}
+          </th>
+          <th class="fc-sort" data-fc-sort="group">
+            Group
+            {{#if fcSort.group.desc}}(desc){{/if}}
+            {{#if fcSort.group.asc}}(asc){{/if}}
+          </th>
+          <th class="fc-sort" data-fc-sort="number">
+            Number
+            {{#if fcSort.number.desc}}(desc){{/if}}
+            {{#if fcSort.number.asc}}(asc){{/if}}
+          </th>
+          <th class="fc-sort" data-fc-sort="random_number">
+            Random Number
+            {{#if fcSort.random_number.desc}}(desc){{/if}}
+            {{#if fcSort.random_number.asc}}(asc){{/if}}
+          </th>
+          <th class="fc-sort" data-fc-sort="corporate_group.gender">
+            Gender
+            {{#if fcSort.corporate_group.gender.desc}}(desc){{/if}}
+            {{#if fcSort.corporate_group.gender.asc}}(asc){{/if}}
+          </th>
+          <th class="fc-sort" data-fc-sort="corporate_group.hobbies">
+            Hobbies
+            {{#if fcSort.corporate_group.hobbies.desc}}(desc){{/if}}
+            {{#if fcSort.corporate_group.hobbies.asc}}(asc){{/if}}
+          </th>
+        </tr>
+        {{#each fcResults}}
+        <tr>
+          <td>{{corporate_group.title}}</td>
+          <td>{{name}}</td>
+          <td>{{group}}</td>
+          <td>{{number}}</td>
+          <td>{{random_number}}</td>
+          <td>{{corporate_group.gender}}</td>
+          <td>
+            {{#each corporate_group.hobbies}}
+              {{this}},
+            {{/each}}
+          </td>
+        </tr>
+        {{/each}}
+      </table>
+    </div>
+  </div>
+  {{#if fcPager.pages}}
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <!-- numbered pager -->
+        <ul class="pagination">
+          <li><a href="#" class="fc-pager-first">&lt;&lt;</a></li>
+          <li><a href="#" class="fc-pager-previous">&lt;</a></li>
+          {{#each fcPager.pages}}
+            <li class="{{status}}"><a href="#" class="fc-pager-page" data-fc-pager-page="{{page}}">{{page}}</a></li>
+          {{/each}}
+          <li><a href="#" class="fc-pager-next">&gt;</a></li>
+          <li><a href="#" class="fc-pager-last">&gt;&gt;</a></li>
+        </ul>
+        <!-- /numbered pager -->
+
+        <!-- pager status -->
+        <p>
+          <strong>{{fcPager.offsetStart}}</strong> to <strong>{{fcPager.offsetEnd}}</strong> of <strong>{{fcPager.totalItems}}</strong> records.
+        </p>
+        <!-- /pager status -->
+    </div>
+  </div>
+  {{/if}}
+</template>

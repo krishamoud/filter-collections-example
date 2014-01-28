@@ -6,6 +6,13 @@ Router.configure({
 Router.map(function () {
   this.route('home', {
     path: '/',
-    template: 'home'
+  });
+
+  this.route('peopleList', {
+    path: '/people',
+  });
+
+  this.route('productList', {
+    path: '/products',
   });
 });

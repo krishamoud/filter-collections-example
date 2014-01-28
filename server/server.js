@@ -1,8 +1,16 @@
-//creates a FilterCollections publication
-Meteor.FilterCollections.publish(People);
+//creates FilterCollections publication
+Meteor.FilterCollections.publish(People, {
+  name: 'people-full'
+});
+
+Meteor.FilterCollections.publish(People, {
+  name: 'people-lite'
+});
 
 Meteor.startup(function () {
-	People.remove();
+
+  // Create People fake data
+  People.remove();
   //this code inputs data if there is none
   if (People.find().count() < 10000) {
     //adds arbitrary data.  change this for different filterable columns
