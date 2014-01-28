@@ -1,55 +1,170 @@
 <template name="home">
+
   <div class="container">
     <div class="row">
-      <h1>Click on any of the table headers to change what you are sorting.</h1>
-      <!-- current-filters -->
-      {{#each fc.currentFilters}}
-      <button href="#" class="fc-clear-filter">{{title}} : {{value}}</button>
-      {{/each}} {{#with fc.activeFilters}}
-      <button href="#" class="fc-clear-filters">Clear All</button>
-      {{/with}}
-      <!-- /current-filters -->
-      <table class="table">
-        <tr>
-          <th class="fc-sort" data-fc-sort="name">Name</th>
-          <th class="fc-sort" data-fc-sort="group">Group</th>
-          <th class="fc-sort" data-fc-sort="number">Number</th>
-          <th class="fc-sort" data-fc-sort="random_number">Random Number</th>
-        </tr>
-        {{#each fcResults}}
-        <tr>
-          <td>{{name}}</td>
-          <td>{{group}}</td>
-          <td>{{number}}</td>
-          <td>{{random_number}}</td>
-        </tr>
-        {{/each}}
-      </table>
-      <!-- numbered pager -->
-      <ul class="pagination">
-        <li><a href="#" class="fc-pager-first">&lt;&lt;</a>
-        </li>
-        <li><a href="#" class="fc-pager-previous">&lt;</a>
-        </li>
-        {{#each fcPager.pages}}
-        <li class="{{status}}"><a href="#" class="fc-pager-page" data-fc-pager-page="{{page}}">{{page}}</a>
-        </li>
-        {{/each}}
-        <li><a href="#" class="fc-pager-next">&gt;</a>
-        </li>
-        <li><a href="#" class="fc-pager-last">&gt;&gt;</a>
-        </li>
-      </ul>
-      <!-- /numbered pager -->
-      <!-- items per page -->
-			<p>people per page</p>
-      <select class="fc-pager-options form-control">
-        {{#each fcPager.options}}
-        <option value="{{value}}" {{status}}>{{value}}</option>
-        {{/each}}
-      </select>
-      <!-- /items per page -->
+
+      <div class="page-header">
+        <h1>Filter Collections Application Example<br/><small>Click on any of the table headers to change what you are sorting.</small></h1>
+      </div>
+
+      <nav class="navbar navbar-inverse" role="navigation">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Search by Field <b class="caret"></b></a>
+              <ul class="dropdown-menu" role="menu">
+                {{#each fcFilterSearchable.available}}
+                <li><a href="#" class="fc-search-fields">{{#if active}}Disable{{else}}Enable{{/if}} {{title}} filter</a></li>
+                {{/each}}
+              </ul>
+            </li>
+          </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search" value="{{fcFilterSearchable.criteria}}" data-fc-search-target="search-box">
+            </div>
+            <button type="submit" class="btn btn-default fc-search-trigger" data-fc-search-trigger="search-box">Submit</button>
+            {{#if fcFilterSearchable.criteria}}<button type="button" class="btn btn-default fc-search-clear">Reset</button>{{/if}}
+          </form>
+        </div>
+      </nav>
+
+      <div class="well">
+        <!-- custom filter links-->
+        <strong>Filters</strong>
+        <div class="btn-toolbar" role="toolbar">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default fc-filter" data-fc-filter-field="group" data-fc-filter-value="Odd">Odd</button>
+            <button type="button" class="btn btn-default fc-filter" data-fc-filter-field="group" data-fc-filter-value="Even">Even</button>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default fc-filter" data-fc-filter-field="corporate_group.gender" data-fc-filter-value="Male">Male</button>
+            <button type="button" class="btn btn-default fc-filter" data-fc-filter-field="corporate_group.gender" data-fc-filter-value="Female">Female</button>
+          </div>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default fc-filter" data-fc-filter-field="number" data-fc-filter-operator="$gt" data-fc-filter-value="1000">Number > 1000</button>
+            <button type="button" class="btn btn-default fc-filter" data-fc-filter-field="number" data-fc-filter-operator="$lt" data-fc-filter-value="1000">Number < 1000</button>
+          </div>
+        </div>
+        <!-- /custom filter links -->
+
+        <!-- active filters -->
+        {{#if fcFilterActive}}
+          <hr/>
+          <strong>Active Filters</strong>
+          <ul class="nav nav-pills">
+            {{#each fcFilterActive}}
+              <li class="active"><a href="#" class="fc-filter-clear">{{title}}: {{operator}} {{value}}</a></li>
+            {{/each}}
+            <li class="active"><a href="#" class="fc-filter-reset">Reset all filters</a></li>
+          </ul>
+        {{/if}}
+        <!-- /active filters -->
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-striped table-hover table-condensed">
+          <tr>
+            <th class="fc-sort" data-fc-sort="corporate_group.title">
+              Title
+              {{#if fcSort.corporate_group.title.desc}}(desc){{/if}}
+              {{#if fcSort.corporate_group.title.asc}}(asc){{/if}}
+            </th>
+            <th class="fc-sort" data-fc-sort="name">
+              Name
+              {{#if fcSort.name.desc}}(desc){{/if}}
+              {{#if fcSort.name.asc}}(asc){{/if}}
+            </th>
+            <th class="fc-sort" data-fc-sort="group">
+              Group
+              {{#if fcSort.group.desc}}(desc){{/if}}
+              {{#if fcSort.group.asc}}(asc){{/if}}
+            </th>
+            <th class="fc-sort" data-fc-sort="number">
+              Number
+              {{#if fcSort.number.desc}}(desc){{/if}}
+              {{#if fcSort.number.asc}}(asc){{/if}}
+            </th>
+            <th class="fc-sort" data-fc-sort="random_number">
+              Random Number
+              {{#if fcSort.random_number.desc}}(desc){{/if}}
+              {{#if fcSort.random_number.asc}}(asc){{/if}}
+            </th>
+            <th class="fc-sort" data-fc-sort="corporate_group.gender">
+              Gender
+              {{#if fcSort.corporate_group.gender.desc}}(desc){{/if}}
+              {{#if fcSort.corporate_group.gender.asc}}(asc){{/if}}
+            </th>
+            <th class="fc-sort" data-fc-sort="corporate_group.hobbies">
+              Hobbies
+              {{#if fcSort.corporate_group.hobbies.desc}}(desc){{/if}}
+              {{#if fcSort.corporate_group.hobbies.asc}}(asc){{/if}}
+            </th>
+          </tr>
+          {{#each fcResults}}
+          <tr>
+            <td>{{corporate_group.title}}</td>
+            <td>{{name}}</td>
+            <td>{{group}}</td>
+            <td>{{number}}</td>
+            <td>{{random_number}}</td>
+            <td>{{corporate_group.gender}}</td>
+            <td>
+              {{#each corporate_group.hobbies}}
+                {{this}},
+              {{/each}}
+            </td>
+          </tr>
+          {{/each}}
+        </table>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-2">
+
+        <!-- items per page -->
+        <small><strong>People per page select</strong></small>
+        <select class="fc-pager-options form-control">
+          {{#each fcPager.options}}
+          <option value="{{value}}" {{status}}>{{value}}</option>
+          {{/each}}
+        </select>
+        <!-- /items per page -->
+
+        <!-- items per page -->
+        <small><strong>People per page links</strong></small><br/>
+        <a href="#" class="fc-pager-option" data-fc-pager-page="5">(5) five</a> |
+        <a href="#" class="fc-pager-option" data-fc-pager-page="15">(15) fifteen</a>
+        <!-- /items per page -->
+
+      </div>
+      <div class="col-md-7 text-center">
+        <!-- numbered pager -->
+          <ul class="pagination">
+            <li><a href="#" class="fc-pager-first">&lt;&lt;</a></li>
+            <li><a href="#" class="fc-pager-previous">&lt;</a></li>
+            {{#each fcPager.pages}}
+              <li class="{{status}}"><a href="#" class="fc-pager-page" data-fc-pager-page="{{page}}">{{page}}</a></li>
+            {{/each}}
+            <li><a href="#" class="fc-pager-next">&gt;</a></li>
+            <li><a href="#" class="fc-pager-last">&gt;&gt;</a></li>
+          </ul>
+          <!-- /numbered pager -->
+      </div>
+      <div class="col-md-3">
+
+        <!-- pager status -->
+        <ul class="small">
+          <li>Current page is: <strong>{{fcPager.currentPage}}</strong>.</li>
+          <li>We are displaying <strong>{{fcPager.itemsPerPage}}</strong> results.</li>
+          <li>From <strong>{{fcPager.offsetStart}}</strong> to <strong>{{fcPager.offsetEnd}}</strong>.</li>
+          <li>We have found a total of <strong>{{fcPager.totalItems}}</strong> documents.</li>
+        </ul>
+        <!-- /pager status -->
+
+      </div>
     </div>
   </div>
-</template>
 
+</template>

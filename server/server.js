@@ -1,24 +1,22 @@
 //creates a FilterCollections publication
-Meteor.FilterCollections.publish(People, {
-
-});
+Meteor.FilterCollections.publish(People);
 
 Meteor.startup(function () {
 	People.remove();
   //this code inputs data if there is none
   if (People.find().count() < 10000) {
-    //adds arbitrary data.  change this for different filterable columns 
+    //adds arbitrary data.  change this for different filterable columns
     for (var i = 0; i < 10000; i++) {
       var number = Math.floor(Math.random() * 1000000);
-      if (i % 2 == 0) {
+      if (i % 2 === 0) {
         People.insert({
           name: 'Kris ' + i,
           number: i,
-          group: 'even',
+          group: 'Even',
           random_number: number,
           corporate_group: {
-            title: 'Mr.',
-            gender: 'Male',
+            title: Math.random() < 0.5 ? 'Mr.' : 'Mrs.',
+            gender: Math.random() < 0.5 ? 'Male' : 'Female',
             hobbies: [
               'fishing',
               'coding'
@@ -32,8 +30,8 @@ Meteor.startup(function () {
           group: 'Odd',
           random_number: number,
           corporate_group: {
-            title: 'Ms.',
-            gender: 'Female',
+            title: Math.random() < 0.5 ? 'Mr.' : 'Mrs.',
+            gender: Math.random() < 0.5 ? 'Male' : 'Female',
             hobbies: [
               'Coding',
               'Sleeping'
