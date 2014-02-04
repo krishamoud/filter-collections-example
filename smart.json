@@ -1,6 +1,5 @@
 {
   "packages": {
-    "filter-collections": {},
     "iron-router": {},
     "bootstrap-3": {},
     "fast-render": {}
